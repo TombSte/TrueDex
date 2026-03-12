@@ -1,0 +1,23 @@
+{
+  "runtime": "Net80",
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "./funtranslation.openapi.yaml"
+    }
+  },
+  "codeGenerators": {
+    "openApiToCSharpClient": {
+      "className": "TranslationClient",
+      "namespace": "FunTranslationClient",
+      "output": "TranslationClient.g.cs",
+      "generateClientInterfaces": true,
+      "injectHttpClient": true,
+      "disposeHttpClient": false,
+      "useBaseUrl": true,
+      "generateOptionalParameters": true,
+      "generateDtoTypes": true,
+      "jsonLibrary": "SystemTextJson",
+      "exceptionClass": "FunTranslationException"
+    }
+  }
+}
