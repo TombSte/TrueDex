@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="FunTranslationsClient/FunTranslationsClient.csproj" />
+  <Project Path="TrueDex.Api/TrueDex.Api.csproj" />
+</Solution>
