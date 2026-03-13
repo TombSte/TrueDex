@@ -10,6 +10,8 @@
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="14.0.0" />
         <PackageReference Include="FluentResults" Version="4.0.0" />
+        <PackageReference Include="FluentValidation" Version="12.1.1" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
         <PackageReference Include="Mediator.Abstractions" Version="3.0.1" />
         <PackageReference Include="Mediator.SourceGenerator" Version="3.0.1">
           <PrivateAssets>all</PrivateAssets>
@@ -25,6 +27,14 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\FunTranslationsClient\FunTranslationsClient.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Services\" />
     </ItemGroup>
 
 </Project>

@@ -1,24 +1,30 @@
+using FluentValidation;
+using Mediator;
 using Scalar.AspNetCore;
 using TrueDex.Api;
-using TrueDex.Api.Mapping;
 using TrueDex.Api.MinimalApi;
+using TrueDex.Api.Misc.Behaviors;
+using TrueDex.Api.Misc.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddClients();
 builder.Services.AddServices();
+builder.Services.AddStrategies();
+
 builder.Services.AddOpenApi();
 builder.Services.AddAutoMapper(opt =>
 {
     opt.AddProfile<ResponseMappingProfile>();
 });
 
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
 builder.Services.AddMediator(options =>
 {
     options.ServiceLifetime = ServiceLifetime.Scoped;
     options.Assemblies = [typeof(Program)];
-    options.PipelineBehaviors = [];
-    options.StreamPipelineBehaviors = [];
+    options.PipelineBehaviors = [typeof(ValidationBehavior<,>)];
 });
 
 builder.Services.AddProblemDetails();
@@ -42,8 +48,3 @@ app.UseHttpsRedirection();
 app.AddTrueDexMinimalApi();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

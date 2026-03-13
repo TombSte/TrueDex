@@ -2,26 +2,26 @@ using FluentResults;
 using PokeApiNet;
 using Polly.Registry;
 using TrueDex.Api.Extensions;
-using TrueDex.Api.Interfaces;
 using TrueDex.Api.Misc.Errors;
+using TrueDex.Api.Services.Interfaces;
 using Pokemon = TrueDex.Api.Models.Entities.Pokemon;
 
-namespace TrueDex.Api.Implementations;
+namespace TrueDex.Api.Services.Implementations;
 
 public class PokemonService(
     ResiliencePipelineProvider<string> pipelineProvider, 
     PokeApiClient client, 
     ILogger<PokemonService> logger) : IPokemonService
 {
-    public async ValueTask<Result<Pokemon>> GetPokemon(string pokemonName, CancellationToken cancellationToken = default)
+    public async ValueTask<Result<Pokemon>> GetPokemonAsync(string pokemonName, CancellationToken cancellationToken = default)
     {
-        var pipeline = pipelineProvider.GetDefaultRetryPolicy();
-
         Pokemon response;
         
         try
         {
-            response = await pipeline.ExecuteAsync<Pokemon>(async ctx =>
+            response = await pipelineProvider
+                .GetDefaultRetryPolicy()
+                .ExecuteAsync<Pokemon>(async ctx =>
             {
                 var species = await client.GetResourceAsync<PokemonSpecies>(pokemonName, ctx);
 

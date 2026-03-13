@@ -1,6 +1,7 @@
 using FluentResults;
+using FluentValidation;
 using Mediator;
-using TrueDex.Api.Interfaces;
+using TrueDex.Api.Services.Interfaces;
 
 namespace TrueDex.Api.UseCases.Queries.GetPokemon;
 
@@ -8,7 +9,8 @@ public class GetPokemonHandler(IPokemonService service) : IRequestHandler<GetPok
 {
     public async ValueTask<Result<GetPokemonResult>> Handle(GetPokemonRequest request, CancellationToken cancellationToken)
     {
-        var pokemonResult = await service.GetPokemon(request.Name, cancellationToken);
+        
+        var pokemonResult = await service.GetPokemonAsync(request.Name, cancellationToken);
         
         if(pokemonResult.IsFailed) return Result.Fail(pokemonResult.Errors);
 

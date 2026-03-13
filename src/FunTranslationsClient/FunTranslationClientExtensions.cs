@@ -1,6 +1,4 @@
-﻿using System;
-using FunTranslationClient;
-//using FunTranslationClient;
+﻿using FunTranslationClient;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FunTranslationsClient
@@ -9,7 +7,7 @@ namespace FunTranslationsClient
     {
         public static void AddFunTranslationClient(this IServiceCollection services)
         {
-            services.AddScoped<ITranslationClient, TranslationClient>();
+            services.AddHttpClient<ITranslationClient, TranslationClient>();
         }
     }
 }
