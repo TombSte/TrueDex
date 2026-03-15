@@ -1,8 +1,8 @@
 using FluentResults;
 using FunTranslationClient;
 using Polly.Registry;
-using TrueDex.Api.Extensions;
 using TrueDex.Api.Misc.Errors;
+using TrueDex.Api.Misc.Extensions;
 using TrueDex.Api.Services.Interfaces;
 using TrueDex.Api.Strategies;
 

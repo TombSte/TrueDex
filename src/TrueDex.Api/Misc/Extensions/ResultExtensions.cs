@@ -1,7 +1,7 @@
 using FluentResults;
 using TrueDex.Api.Misc.Errors;
 
-namespace TrueDex.Api.Extensions;
+namespace TrueDex.Api.Misc.Extensions;
 
 public static class ResultExtensions
 {
@@ -17,16 +17,20 @@ public static class ResultExtensions
             title: title,
             detail: detail,
             type: type,
-            extensions: new Dictionary<string, object?>
+            extensions: new Dictionary<string, object>
             {
                 ["errors"] = result.Errors.Select(x => x.Message).ToArray()
             });
     }
     
-    private static (int StatusCode, string Title, string Detail, string Type) MapError(IError? error)
+    private static (int StatusCode, string Title, string Detail, string Type) MapError(IError error)
         => error?.Message switch
         {
-            //customize here error responses
+            ExternalErrors.PokeApiNotFoundErrorMessage => (
+                StatusCodes.Status404NotFound, 
+                "Not found", 
+                "Pokemon does not exists.", 
+                "https://httpstatuses.com/404"),
             _ => (
                 StatusCodes.Status500InternalServerError,
                 "Unexpected error",

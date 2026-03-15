@@ -1,8 +1,9 @@
+using System.Net;
 using FluentResults;
 using PokeApiNet;
 using Polly.Registry;
-using TrueDex.Api.Extensions;
 using TrueDex.Api.Misc.Errors;
+using TrueDex.Api.Misc.Extensions;
 using TrueDex.Api.Services.Interfaces;
 using Pokemon = TrueDex.Api.Models.Entities.Pokemon;
 
@@ -16,24 +17,35 @@ public class PokemonService(
     public async ValueTask<Result<Pokemon>> GetPokemonAsync(string pokemonName, CancellationToken cancellationToken = default)
     {
         Pokemon response;
-        
+
         try
         {
             response = await pipelineProvider
                 .GetDefaultRetryPolicy()
                 .ExecuteAsync<Pokemon>(async ctx =>
-            {
-                var species = await client.GetResourceAsync<PokemonSpecies>(pokemonName, ctx);
-
-                return new Pokemon()
                 {
-                    Name = species.Name,
-                    Habitat = species.Habitat.Name,
-                    IsLegendary = species.IsLegendary,
-                    Description = species.FlavorTextEntries.FirstOrDefault(x => x.Language.Name == "en")?.FlavorText ??
-                                  string.Empty
-                };
-            }, cancellationToken);
+                    var species = await client.GetResourceAsync<PokemonSpecies>(pokemonName, ctx);
+
+                    return new Pokemon()
+                    {
+                        Name = species.Name,
+                        Habitat = species.Habitat.Name,
+                        IsLegendary = species.IsLegendary,
+                        Description =
+                            species.FlavorTextEntries.FirstOrDefault(x => x.Language.Name == "en")?.FlavorText ??
+                            string.Empty
+                    };
+                }, cancellationToken);
+        }
+        catch (HttpRequestException e)
+        {
+            logger.LogError(e, "Http Error getting pokemon species");
+            switch (e.StatusCode)
+            {
+                case HttpStatusCode.NotFound: return ExternalErrors.PokeApiNotFoundError;
+                default:
+                    return ExternalErrors.PokeApiError;
+            }
         }
         catch (Exception e)
         {

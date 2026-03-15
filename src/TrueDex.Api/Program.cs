@@ -1,5 +1,4 @@
 using FluentValidation;
-using Mediator;
 using Scalar.AspNetCore;
 using TrueDex.Api;
 using TrueDex.Api.MinimalApi;
@@ -8,15 +7,22 @@ using TrueDex.Api.Misc.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddClients();
 builder.Services.AddServices();
 builder.Services.AddStrategies();
 
 builder.Services.AddOpenApi();
-builder.Services.AddAutoMapper(opt =>
-{
-    opt.AddProfile<ResponseMappingProfile>();
-});
 
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
@@ -43,7 +49,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseExceptionHandler();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+app.UseCors();
 
 app.AddTrueDexMinimalApi();
 

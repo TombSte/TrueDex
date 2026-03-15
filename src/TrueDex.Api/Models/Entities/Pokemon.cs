@@ -2,8 +2,8 @@ namespace TrueDex.Api.Models.Entities;
 
 public class Pokemon
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public string Habitat { get; set; }
+    public required string Name { get; set; }
+    public required string Description { get; set; }
+    public required string Habitat { get; set; }
     public bool IsLegendary { get; set; }
 }

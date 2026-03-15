@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <GenerateApiClientOnBuild>false</GenerateApiClientOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,7 +25,7 @@
       </None>
     </ItemGroup>
 
-    <Target Name="GenerateApiClient" BeforeTargets="CoreCompile">
+    <Target Name="GenerateApiClient" BeforeTargets="CoreCompile" Condition="'$(GenerateApiClientOnBuild)' == 'true'">
         <Exec Command="$(NSwagExe_Net80) run funtranslation.nswag" />
     </Target>
 

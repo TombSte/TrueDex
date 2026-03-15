@@ -1,10 +1,8 @@
-using FluentResults;
-using PokeApiNet;
 using Polly;
 using Polly.Registry;
 using Polly.Retry;
 
-namespace TrueDex.Api.Extensions;
+namespace TrueDex.Api.Misc.Extensions;
 
 public static class RetryExtensions
 {

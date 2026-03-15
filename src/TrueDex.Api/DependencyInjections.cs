@@ -1,6 +1,6 @@
 using FunTranslationsClient;
 using PokeApiNet;
-using TrueDex.Api.Extensions;
+using TrueDex.Api.Misc.Extensions;
 using TrueDex.Api.Services.Implementations;
 using TrueDex.Api.Services.Interfaces;
 using TrueDex.Api.Strategies;
