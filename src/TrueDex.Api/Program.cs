@@ -1,9 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 using Scalar.AspNetCore;
 using TrueDex.Api;
 using TrueDex.Api.MinimalApi;
 using TrueDex.Api.Misc.Behaviors;
-using TrueDex.Api.Misc.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,3 +55,6 @@ app.UseCors();
 app.AddTrueDexMinimalApi();
 
 app.Run();
+
+[ExcludeFromCodeCoverage]
+public partial class Program;
