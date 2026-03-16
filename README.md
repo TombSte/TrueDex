@@ -64,4 +64,5 @@ To invoke FunTranslation api I created a new auto-generated client using nswag f
 - Authentication/Authorization
 - Introduce a cache to reduce the number of invocation of the external service (if possibile).
 - Introduce circuit breaker if external services are not availables.
-- Libraries like FunTranslationClient referenced as Package and not as Project to be better reused and versioned.
+- Libraries like FunTranslationClient referenced as Package and not as Project to be better reused and versioned. I would also consider to set the base url of the FunTranslation service into appsettings.json/environment variables. 
+- For more structured projects, I would consider the adoption of Clean Architecture, I used this simple project structure because the requirement was simple.
